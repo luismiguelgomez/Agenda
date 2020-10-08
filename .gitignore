@@ -1,0 +1,12 @@
+hooks
+info
+objects
+refs
+config
+description
+HEAD
+.classpath
+bin/
+/bin
+.project
+.settings/
