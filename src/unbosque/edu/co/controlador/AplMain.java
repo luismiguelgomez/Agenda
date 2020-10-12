@@ -11,10 +11,11 @@ public class AplMain {
 
 	/**
 	 * @param args para iniciar el programa
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+	public static void main(String[] args)   {
+		Controlador c = new Controlador();
+		
+	}	
 
 }
