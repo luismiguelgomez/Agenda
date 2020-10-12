@@ -1,9 +1,23 @@
 package unbosque.edu.co.controlador;
 
-public class Controlador {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-	public Controlador() {
-		// TODO Auto-generated constructor stub
+import javax.swing.JOptionPane;
+
+import unbosque.edu.co.vista.PanelMenu;
+import unbosque.edu.co.vista.View;
+
+public class Controlador   {
+
+	
+	public Controlador()    {
+		View v = new View();
+		v.setVisible(true);
 	}
+	
+	    
 
+	
+	 
 }
