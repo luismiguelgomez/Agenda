@@ -28,11 +28,9 @@ public class View extends JFrame implements ActionListener {
 
 	JLabel label;
 	ImageIcon imagenF;
-	JButton botonA;
-	JButton botonS;
+	JButton botonA,botonS;
 	JPanel panel;
 
-	JScrollPane scroll;
 	PanelAgenda agenda;
 
 	public View() {
@@ -42,20 +40,21 @@ public class View extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		iniciarComponentes();
 		
+		iniciarComponentes();
 	}
 
 	public void iniciarComponentes() {
 		agenda = new PanelAgenda();
-		scroll = new JScrollPane();
-		scroll.setBounds(0, 0, getWidth(), getHeight());
-		// imagen fondo
+
+			agenda.setBounds(0, 0, getWidth(), getHeight());
+			agenda.setVisible(false);
 		// fondo de presentacion empleado fijo
 
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(0, 0, getWidth(), getHeight());
+		panel.setVisible(true);
 		add(panel);
 
 		label = new JLabel();
@@ -84,26 +83,28 @@ public class View extends JFrame implements ActionListener {
 		botonS.setBorder(null);
 		botonS.setIcon(imagenF);
 		botonS.addActionListener(this);
-		
 		panel.add(botonA,0);
 		panel.add(botonS,0);
-		add(scroll);
+		panel.add(agenda,0);
 
 	}
 
 	private void definirPanel(PanelAgenda agenda1) {
-
-		scroll.setViewportView(agenda1);
+		
+		agenda1.setVisible(true);
+		
 	}
+	
 	
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==botonA) {
 				definirPanel(agenda);
+				botonS.setVisible(false);
 			}
-			if(e.getSource()==botonS) {
 				
+			if(e.getSource()==botonS) {
 				System.exit(0);
 			}
 		}
