@@ -62,7 +62,7 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		paises.setBounds(80, 90, 150, 30);
 		paises.addItem("Colombia");
 		paises.addItem("Peru");
-		paises.addItem("España");
+		paises.addItem("EspaÃ±a");
 		paises.addItem("Chile");
 		paises.addItem("Mexico");
 		paises.addItem("Argentina");
