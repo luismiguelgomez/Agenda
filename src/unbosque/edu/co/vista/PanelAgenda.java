@@ -142,15 +142,7 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		botonActualizarC.addActionListener(this);
 		panel1.add(botonActualizarC);
 
-		String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
-
-		mod = new DefaultTableModel(datos, cabezera);
-
-		JTable tabla = new JTable(mod);
-		JScrollPane scroll = new JScrollPane(tabla);
-		scroll.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Lista de amigos"),null));
-		scroll.setBounds(10, 215, 440, 160);
-		panel1.add(scroll);
+		
 
 	}
 
@@ -238,13 +230,27 @@ public class PanelAgenda extends JPanel implements ActionListener {
 			datos[fila][2] = telefonoAmigo = ingresarTelefonoA.getText();
 			datos[fila][3] = correoAmigo = ingresarCorreoA.getText();
 			String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
-			mod = new DefaultTableModel(datos, cabezera);
+			mod = new DefaultTableModel(datos, cabezera) {
+				
+				public boolean isCellEditable(int fila, int columna) {
+					
+					if (columna==4) {
+						return true;
+					}else{
+						return false;
+					}
+					
+					
+					
+				};
+			};
 
 			JTable tabla = new JTable(mod);
 			JScrollPane scroll = new JScrollPane(tabla);
 			scroll.setBounds(10, 250, 440, 130);
 			panel1.add(scroll);
 			fila = fila + 1;
+		
 		}
 		if (arg0.getSource() == botonGuardarC) {
 	
