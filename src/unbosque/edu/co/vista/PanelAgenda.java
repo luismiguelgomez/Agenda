@@ -1,10 +1,10 @@
 package unbosque.edu.co.vista;
 
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.Color; 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -12,11 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
@@ -35,12 +32,20 @@ public class PanelAgenda extends JPanel implements ActionListener {
 	JButton botonEliminar;
 	JButton botonActualizarA, botonActualizarC;
 	String datos[][];
-	DefaultTableModel mod;
+	String datosContactos[][];
+	DefaultTableModel mod ;
+	DefaultTableModel modContactos;
 	private int fila;
+	private int filaContactos;
+	String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
+	String[] cabezeraContactos = { "Nombre", "Empresa", "Pais", "Telefono", "Correo" };
+			
 
 	public PanelAgenda() {
 		fila = 0;
-		datos = new String[100][4];
+		filaContactos = 0;
+		datos=new String [100][4];
+		datosContactos = new String[100][5];
 
 		setLayout(null);
 		setBackground(Color.WHITE);
@@ -64,7 +69,7 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		paises.setBounds(80, 90, 150, 30);
 		paises.addItem("Colombia");
 		paises.addItem("Peru");
-		paises.addItem("España");
+		paises.addItem("EspaÃ±a");
 		paises.addItem("Chile");
 		paises.addItem("Mexico");
 		paises.addItem("Argentina");
@@ -137,13 +142,19 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		botonEliminar.addActionListener(this);
 		panel1.add(botonEliminar);
 
+
 		botonActualizarC = new JButton("Actualizar");
 		botonActualizarC.setBounds(280, 100, 150, 40);
 		botonActualizarC.addActionListener(this);
 		panel1.add(botonActualizarC);
 
+		mod = new DefaultTableModel(datos, cabezera);
 		
 
+		JTable tabla = new JTable(mod);
+		JScrollPane scroll = new JScrollPane(tabla);
+		scroll.setBounds(10, 250, 440, 130);
+		panel1.add(scroll);
 	}
 
 	private void panelContactos() {
@@ -197,11 +208,9 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		botonActualizarC.addActionListener(this);
 		panel2.add(botonActualizarC);
 
-		String[] cabezera = { "Nombre", "Empresa", "Pais", "Telefono", "Correo" };
+		modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
 
-		DefaultTableModel mod = new DefaultTableModel(datos, cabezera);
-
-		JTable tabla = new JTable(mod);
+		JTable tabla = new JTable(modContactos);
 		JScrollPane scroll = new JScrollPane(tabla);
 		scroll.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Lista de contactos de la empresa"),null));
 
@@ -221,14 +230,14 @@ public class PanelAgenda extends JPanel implements ActionListener {
 			panel1.setVisible(false);
 		}
 		if (arg0.getSource() == botonGuardarA) {
+
 			String nombreAmigo;
 			String correoAmigo;
 			String telefonoAmigo;
-			System.out.println(paises.getSelectedItem());
-			datos[fila][0] = nombreAmigo = ingresarNombreA.getText();
-			datos[fila][1] = (String) paises.getSelectedItem();
-			datos[fila][2] = telefonoAmigo = ingresarTelefonoA.getText();
-			datos[fila][3] = correoAmigo = ingresarCorreoA.getText();
+			datos[fila][0]=	ingresarNombreA.getText();
+			datos[fila][1]=	(String) paises.getSelectedItem();
+			datos[fila][2]= ingresarTelefonoA.getText();
+			datos[fila][3]= ingresarCorreoA.getText();
 			String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
 			mod = new DefaultTableModel(datos, cabezera) {
 				
@@ -253,7 +262,21 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		
 		}
 		if (arg0.getSource() == botonGuardarC) {
-	
+
+			System.out.println(ingresarNombreC.getText());
+			datosContactos[filaContactos][0]= ingresarNombreC.getText();
+			datosContactos[filaContactos][1]= ingresarEmpresa.getText();
+			datosContactos[filaContactos][2]= (String) paises.getSelectedItem();
+			datosContactos[filaContactos][3]= ingresarTelefonoC.getText();
+			datosContactos[filaContactos][4]= ingresarCorreoC.getText();
+			
+			modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
+
+			JTable tabla = new JTable(modContactos);
+			JScrollPane scroll = new JScrollPane(tabla);
+			scroll.setBounds(10, 250, 440, 130);
+			panel2.add(scroll);
+			filaContactos = filaContactos + 1;			
 		}
 	}
 
