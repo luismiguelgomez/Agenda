@@ -7,20 +7,21 @@ package unbosque.edu.co.modelo;
  * @author gomez
  *
  */
-public class AmigosDto {
+public class AmigosDao {
 
 	String datosContactos[][];
 	/**
 	 * 
 	 */
-	public AmigosDto(String pInfo) {
+	public AmigosDao() {
 		datosContactos = new String[100][5];
 		infoBasica();
-		buscar(pInfo);
-		eliminar(pInfo);
+//		buscar(pInfo);
+//		eliminar(pInfo);
+//		actualizarDatos(1, "nombre", "pais", "3232", "coquito@l");
 	}
 	
-	private void infoBasica() {
+	public void infoBasica() {
 		datosContactos[3][0]  = "nombre";
 		datosContactos[3][1] = "empresa";
 		datosContactos[3][2] = "pais";
@@ -28,7 +29,20 @@ public class AmigosDto {
 		datosContactos[3][4] = "coco@l";
 	}
 
-	private String buscar(String pInfo) {
+	public boolean actualizarDatos (int fila, String nombre, String pais , String tel, String correo  ) {
+		if (fila < datosContactos.length) {
+			datosContactos [fila][0] = nombre;
+			datosContactos [fila][1] = pais;
+			datosContactos [fila][2] = tel;
+			datosContactos [fila][3] = correo;
+			
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String buscar(String pInfo) {
 		String info = pInfo;
 		
 		for (int i = 0; i < datosContactos.length; i++) {
@@ -47,7 +61,7 @@ public class AmigosDto {
 		return info;
 	}
 
-	private boolean eliminar (String pInfo) {
+	public boolean eliminar (String pInfo) {
 		boolean dato = false;
 		int referencia;
 		
@@ -62,7 +76,7 @@ public class AmigosDto {
 					datosContactos[i][3] = null;
 					datosContactos[i][4] = null;
 					
-					actualizarDatos(referencia);
+//					actualizaReferencia(referencia);
 				}
 				
 			}
@@ -71,7 +85,7 @@ public class AmigosDto {
 		return dato;
 	}
 
-	private void actualizarDatos(int referencia) {
+	public void actualizaReferencia(int referencia) {
 		String pais, tel,correo, nombreAnt,empresa;
 		
 		
