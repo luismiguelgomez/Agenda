@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
-
 import unbosque.edu.co.controlador.ManejoArchivos;
 
 public class PanelAgenda extends JPanel  implements ActionListener{
@@ -56,9 +59,10 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 
 	private void iniciarComponentes() {
 
-		JLabel titiulo = new JLabel("AGENDA");
-		titiulo.setFont(new Font("", Font.PLAIN, 20));
-		titiulo.setBounds(20, 30, 300, 30);
+		JLabel titulo = new JLabel("AGENDA");
+
+		titulo.setFont(new Font("", Font.PLAIN, 20));
+		titulo.setBounds(20, 30, 300, 30);
 
 		JLabel texto = new JLabel("Pais:");
 		texto.setBounds(20, 90, 300, 30);
@@ -100,7 +104,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		add(panel2);
 		add(panel1);
 
-		add(titiulo, 0);
+		add(titulo, 0);
 	}
 
 	public void PanelAmigos() {
@@ -109,33 +113,44 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		panel1.add(lblEtiqueta);
 
 		JLabel textoPanel1 = new JLabel("Nombre:");
-		textoPanel1.setBounds(10, 70, 150, 30);
+		textoPanel1.setBounds(10, 40, 150, 30);
 		panel1.add(textoPanel1);
 
 		textoPanel1 = new JLabel("Telefono:");
-		textoPanel1.setBounds(10, 110, 150, 30);
+		textoPanel1.setBounds(10, 80, 150, 30);
 		panel1.add(textoPanel1);
 
 		textoPanel1 = new JLabel("Correo:");
-		textoPanel1.setBounds(10, 150, 150, 30);
+		textoPanel1.setBounds(10, 120, 150, 30);
 		panel1.add(textoPanel1);
 
 		ingresarNombreA = new JTextField();
-		ingresarNombreA.setBounds(80, 80, 150, 20);
+		ingresarNombreA.setBounds(80, 50, 150, 20);
 		panel1.add(ingresarNombreA, 0);
 
 		ingresarTelefonoA = new JTextField();
-		ingresarTelefonoA.setBounds(80, 120, 150, 20);
+		ingresarTelefonoA.setBounds(80, 90, 150, 20);
 		panel1.add(ingresarTelefonoA, 0);
 
 		ingresarCorreoA = new JTextField();
-		ingresarCorreoA.setBounds(80, 160, 150, 20);
+		ingresarCorreoA.setBounds(80, 130, 150, 20);
 		panel1.add(ingresarCorreoA, 0);
 
 		botonGuardarA = new JButton("Guardar");
-		botonGuardarA.setBounds(280, 200, 150, 40);
+		botonGuardarA.setBounds(280, 40, 150, 40);
 		botonGuardarA.addActionListener(this);
 		panel1.add(botonGuardarA);
+		
+		botonEliminar = new JButton("Eliminar");
+		botonEliminar.setBounds(280, 160, 150, 40);
+		botonEliminar.addActionListener(this);
+		panel1.add(botonEliminar);
+
+
+		botonActualizarC = new JButton("Actualizar");
+		botonActualizarC.setBounds(280, 100, 150, 40);
+		botonActualizarC.addActionListener(this);
+		panel1.add(botonActualizarC);
 
 		mod = new DefaultTableModel(datos, cabezera);
 		
@@ -144,69 +159,67 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		JScrollPane scroll = new JScrollPane(tabla);
 		scroll.setBounds(10, 250, 440, 130);
 		panel1.add(scroll);
-
 	}
 
 	private void panelContactos() {
-		JLabel lblEtiqueta = new JLabel("Contactos del trabajo");
-		lblEtiqueta.setBounds(10, 11, 150, 30);
-		panel2.add(lblEtiqueta);
+		panel2.setBorder(
+				BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Contactos del trabajo"), null));
 
-		JLabel textoPanel1 = new JLabel("Nombre:");
-		textoPanel1.setBounds(10, 70, 150, 30);
-		panel2.add(textoPanel1);
+		JLabel textoPanel2 = new JLabel("Nombre:");
+		textoPanel2.setBounds(10, 40, 150, 30);
+		panel2.add(textoPanel2);
 
-		textoPanel1 = new JLabel("Telefono:");
-		textoPanel1.setBounds(10, 110, 150, 30);
-		panel2.add(textoPanel1);
+		textoPanel2 = new JLabel("Telefono:");
+		textoPanel2.setBounds(10, 80, 150, 30);
+		panel2.add(textoPanel2);
 
-		textoPanel1 = new JLabel("Correo:");
-		textoPanel1.setBounds(10, 150, 150, 30);
-		panel2.add(textoPanel1);
+		textoPanel2 = new JLabel("Correo:");
+		textoPanel2.setBounds(10, 120, 150, 30);
+		panel2.add(textoPanel2);
 
-		textoPanel1 = new JLabel("Empresa:");
-		textoPanel1.setBounds(10, 190, 150, 30);
-		panel2.add(textoPanel1);
+		textoPanel2 = new JLabel("Empresa:");
+		textoPanel2.setBounds(10, 160, 150, 30);
+		panel2.add(textoPanel2);
 
 		ingresarNombreC = new JTextField();
-		ingresarNombreC.setBounds(100, 80, 150, 20);
+		ingresarNombreC.setBounds(100, 50, 150, 20);
 		panel2.add(ingresarNombreC, 0);
 
 		ingresarTelefonoC = new JTextField();
-		ingresarTelefonoC.setBounds(100, 120, 150, 20);
+		ingresarTelefonoC.setBounds(100, 90, 150, 20);
 		panel2.add(ingresarTelefonoC, 0);
 
 		ingresarCorreoC = new JTextField();
-		ingresarCorreoC.setBounds(100, 160, 150, 20);
+		ingresarCorreoC.setBounds(100, 130, 150, 20);
 		panel2.add(ingresarCorreoC, 0);
 
 		ingresarEmpresa = new JTextField();
-		ingresarEmpresa.setBounds(100, 200, 150, 20);
+		ingresarEmpresa.setBounds(100, 170, 150, 20);
 		panel2.add(ingresarEmpresa, 0);
 
 		botonGuardarC = new JButton("Guardar");
-		botonGuardarC.setBounds(280, 200, 150, 40);
+		botonGuardarC.setBounds(280, 40, 150, 40);
 		botonGuardarC.addActionListener(this);
 		panel2.add(botonGuardarC);
 
-		modContactos = new DefaultTableModel(datosContactos, cabezeraContactos) {
-			
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				if (column == 3) {
-					return true;
-				} else {
-					return false;
-				}
-			
-			}
-		};
-		
-		
+		botonEliminar = new JButton("Eliminar");
+		botonEliminar.setBounds(280, 160, 150, 40);
+		botonEliminar.addActionListener(this);
+		panel2.add(botonEliminar);
+
+		botonActualizarC = new JButton("Actualizar");
+		botonActualizarC.setBounds(280, 100, 150, 40);
+		botonActualizarC.addActionListener(this);
+		panel2.add(botonActualizarC);
+
+		modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
+
 
 		JTable tabla = new JTable(modContactos);
 		JScrollPane scroll = new JScrollPane(tabla);
-		scroll.setBounds(10, 250, 440, 130);
+		scroll.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Lista de contactos de la empresa"),null));
+
+		scroll.setBounds(10, 215, 440, 160);
 		panel2.add(scroll);
 
 	}

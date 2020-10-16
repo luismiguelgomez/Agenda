@@ -20,6 +20,7 @@ public class View extends JFrame {
 
 	// atributos de la interaz
 
+
 	private JLabel label;
 	private ImageIcon imagenF;
 	private JButton botonA;
@@ -42,14 +43,15 @@ public class View extends JFrame {
 
 	public void iniciarComponentes() {
 		agenda = new PanelAgenda();
-		scroll = new JScrollPane();
-		scroll.setBounds(0, 0, getWidth(), getHeight());
-		// imagen fondo
+
+			agenda.setBounds(0, 0, getWidth(), getHeight());
+			agenda.setVisible(false);
 		// fondo de presentacion empleado fijo
 
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(0, 0, getWidth(), getHeight());
+		panel.setVisible(true);
 		add(panel);
 
 		label = new JLabel();
