@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -15,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import unbosque.edu.co.controlador.ManejoArchivos;
 
@@ -30,6 +28,9 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	private JTextField ingresarEmpresa;
 	private JButton botonPanelA, botonPanelC;
 	private JButton botonGuardarA, botonGuardarC;
+	private JButton botonEliminar;
+	private JButton botonActualizarA, botonActualizarC;
+	
 	private String datos[][];
 	private String datosContactos[][];
 	private DefaultTableModel mod ;

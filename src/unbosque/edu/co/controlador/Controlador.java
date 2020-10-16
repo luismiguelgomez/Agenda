@@ -39,7 +39,8 @@ public class Controlador implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == v.getBotonA()) {
-			v.definirPanel(v.getAgenda());
+//			v.definirPanel(v.getAgenda());
+			v.definirPanel(agenda);
 		}
 
 		if (arg0.getSource() == v.getBotonS()) {

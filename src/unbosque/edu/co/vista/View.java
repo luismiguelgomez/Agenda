@@ -44,8 +44,8 @@ public class View extends JFrame {
 	public void iniciarComponentes() {
 		agenda = new PanelAgenda();
 
-			agenda.setBounds(0, 0, getWidth(), getHeight());
-			agenda.setVisible(false);
+		agenda.setBounds(0, 0, getWidth(), getHeight());
+		agenda.setVisible(false);
 		// fondo de presentacion empleado fijo
 
 		JPanel panel = new JPanel();
@@ -83,8 +83,7 @@ public class View extends JFrame {
 
 		panel.add(botonA, 0);
 		panel.add(botonS, 0);
-		add(scroll);
-
+		panel.add(agenda,0);
 	}
 
 	public JLabel getLabel() {
@@ -144,8 +143,8 @@ public class View extends JFrame {
 	}
 
 	public void definirPanel(PanelAgenda agenda1) {
-
-		scroll.setViewportView(agenda1);
+		agenda1.setVisible(true);
+//		scroll.setViewportView(agenda1);
 	}
 
 }
