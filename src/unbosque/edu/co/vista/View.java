@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class View extends JFrame implements ActionListener {
+public class View extends JFrame {
 
 	// Constantes
 
@@ -20,12 +20,15 @@ public class View extends JFrame implements ActionListener {
 
 	// atributos de la interaz
 
-	JLabel label;
-	ImageIcon imagenF;
-	JButton botonA,botonS;
-	JPanel panel;
 
-	PanelAgenda agenda;
+	private JLabel label;
+	private ImageIcon imagenF;
+	private JButton botonA;
+	private JButton botonS;
+	private JPanel panel;
+
+	private JScrollPane scroll;
+	private PanelAgenda agenda;
 
 	public View() {
 
@@ -34,8 +37,8 @@ public class View extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		iniciarComponentes();
+		setVisible(true);
 	}
 
 	public void iniciarComponentes() {
@@ -66,7 +69,7 @@ public class View extends JFrame implements ActionListener {
 		botonA.setBackground(new Color(0, 0, 0, 0));
 		botonA.setBorder(null);
 		botonA.setIcon(imagenF);
-		botonA.addActionListener(this);
+//		botonA.addActionListener(this);
 
 		botonS = new JButton();
 		botonS.setBounds(400, 350, 90, 80);
@@ -76,32 +79,73 @@ public class View extends JFrame implements ActionListener {
 		botonS.setBackground(new Color(0, 0, 0, 0));
 		botonS.setBorder(null);
 		botonS.setIcon(imagenF);
-		botonS.addActionListener(this);
-		panel.add(botonA,0);
-		panel.add(botonS,0);
-		panel.add(agenda,0);
+//		botonS.addActionListener(this);
+
+		panel.add(botonA, 0);
+		panel.add(botonS, 0);
+		add(scroll);
 
 	}
 
-	private void definirPanel(PanelAgenda agenda1) {
-		
-		agenda1.setVisible(true);
-		
+	public JLabel getLabel() {
+		return label;
 	}
-	
-	
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==botonA) {
-				definirPanel(agenda);
-				botonS.setVisible(false);
-			}
-				
-			if(e.getSource()==botonS) {
-				System.exit(0);
-			}
-		}
 
-
+	public void setLabel(JLabel label) {
+		this.label = label;
 	}
+
+	public ImageIcon getImagenF() {
+		return imagenF;
+	}
+
+	public void setImagenF(ImageIcon imagenF) {
+		this.imagenF = imagenF;
+	}
+
+	public JButton getBotonA() {
+		return botonA;
+	}
+
+	public void setBotonA(JButton botonA) {
+		this.botonA = botonA;
+	}
+
+	public JButton getBotonS() {
+		return botonS;
+	}
+
+	public void setBotonS(JButton botonS) {
+		this.botonS = botonS;
+	}
+
+	public JPanel getPanel() {
+		return panel;
+	}
+
+	public void setPanel(JPanel panel) {
+		this.panel = panel;
+	}
+
+	public JScrollPane getScroll() {
+		return scroll;
+	}
+
+	public void setScroll(JScrollPane scroll) {
+		this.scroll = scroll;
+	}
+
+	public PanelAgenda getAgenda() {
+		return agenda;
+	}
+
+	public void setAgenda(PanelAgenda agenda) {
+		this.agenda = agenda;
+	}
+
+	public void definirPanel(PanelAgenda agenda1) {
+
+		scroll.setViewportView(agenda1);
+	}
+
+}

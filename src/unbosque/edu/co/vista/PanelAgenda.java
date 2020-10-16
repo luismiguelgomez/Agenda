@@ -1,6 +1,6 @@
 package unbosque.edu.co.vista;
 
-import java.awt.Color; 
+import java.awt.Color;  
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,41 +17,44 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import unbosque.edu.co.controlador.ManejoArchivos;
 
-public class PanelAgenda extends JPanel implements ActionListener {
+public class PanelAgenda extends JPanel  implements ActionListener{
 
-	JComboBox<String> paises;
-	JPanel panel1;
-	JPanel panel2;
-	JTextField ingresarNombreA, ingresarNombreC;
-	JTextField ingresarTelefonoA, ingresarTelefonoC;
-	JTextField ingresarCorreoA, ingresarCorreoC;
-	JTextField ingresarEmpresa;
-	JButton botonPanelA, botonPanelC;
-	JButton botonGuardarA, botonGuardarC;
-	JButton botonEliminar;
-	JButton botonActualizarA, botonActualizarC;
-	String datos[][];
-	String datosContactos[][];
-	DefaultTableModel mod ;
-	DefaultTableModel modContactos;
+	private JComboBox<String> paises;
+	private JPanel panel1;
+	private JPanel panel2;
+	private JTextField ingresarNombreA, ingresarNombreC;
+	private JTextField ingresarTelefonoA, ingresarTelefonoC;
+	private JTextField ingresarCorreoA, ingresarCorreoC;
+	private JTextField ingresarEmpresa;
+	private JButton botonPanelA, botonPanelC;
+	private JButton botonGuardarA, botonGuardarC;
+	private String datos[][];
+	private String datosContactos[][];
+	private DefaultTableModel mod ;
+	private DefaultTableModel modContactos;
 	private int fila;
 	private int filaContactos;
-	String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
-	String[] cabezeraContactos = { "Nombre", "Empresa", "Pais", "Telefono", "Correo" };
+	private String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
+	private String[] cabezeraContactos = { "Nombre", "Empresa", "Pais", "Telefono", "Correo" };
 			
 
 	public PanelAgenda() {
-		fila = 0;
-		filaContactos = 0;
+		ManejoArchivos claseArchivo = new ManejoArchivos();
+
 		datos=new String [100][4];
 		datosContactos = new String[100][5];
+		datosContactos = claseArchivo.mostrarContactos();
+		fila = claseArchivo.getFilaContactos();
+		filaContactos = claseArchivo.getFila();
 
+		
 		setLayout(null);
 		setBackground(Color.WHITE);
 
 		iniciarComponentes();
-
+		setVisible(true);
 	}
 
 	private void iniciarComponentes() {
@@ -78,12 +81,12 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		panel1 = new JPanel();
 		panel1.setLayout(null);
 		panel1.setBounds(0, 200, 460, 385);
-		panel1.setVisible(false);
+		panel1.setVisible(true);
 
 		panel2 = new JPanel();
 		panel2.setLayout(null);
 		panel2.setBounds(460, 200, 460, 385);
-		panel2.setVisible(false);
+		panel2.setVisible(true);
 
 		botonPanelA = new JButton("AMIGOS CERCANOS");
 		botonPanelA.setBounds(100, 130, 230, 60);
@@ -104,9 +107,10 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		add(titulo, 0);
 	}
 
-	private void PanelAmigos() {
-		panel1.setBorder(
-				BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Contactos amigos"), null));
+	public void PanelAmigos() {
+		JLabel lblEtiqueta = new JLabel("Amigos cercanos");
+		lblEtiqueta.setBounds(10, 11, 150, 30);
+		panel1.add(lblEtiqueta);
 
 		JLabel textoPanel1 = new JLabel("Nombre:");
 		textoPanel1.setBounds(10, 40, 150, 30);
@@ -210,6 +214,7 @@ public class PanelAgenda extends JPanel implements ActionListener {
 
 		modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
 
+
 		JTable tabla = new JTable(modContactos);
 		JScrollPane scroll = new JScrollPane(tabla);
 		scroll.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Lista de contactos de la empresa"),null));
@@ -217,6 +222,182 @@ public class PanelAgenda extends JPanel implements ActionListener {
 		scroll.setBounds(10, 215, 440, 160);
 		panel2.add(scroll);
 
+	}
+
+	public JComboBox<String> getPaises() {
+		return paises;
+	}
+
+	public void setPaises(JComboBox<String> paises) {
+		this.paises = paises;
+	}
+
+	public JPanel getPanel1() {
+		return panel1;
+	}
+
+	public void setPanel1(JPanel panel1) {
+		this.panel1 = panel1;
+	}
+
+	public JPanel getPanel2() {
+		return panel2;
+	}
+
+	public void setPanel2(JPanel panel2) {
+		this.panel2 = panel2;
+	}
+
+	public JTextField getIngresarNombreA() {
+		return ingresarNombreA;
+	}
+
+	public void setIngresarNombreA(JTextField ingresarNombreA) {
+		this.ingresarNombreA = ingresarNombreA;
+	}
+
+	public JTextField getIngresarNombreC() {
+		return ingresarNombreC;
+	}
+
+	public void setIngresarNombreC(JTextField ingresarNombreC) {
+		this.ingresarNombreC = ingresarNombreC;
+	}
+
+	public JTextField getIngresarTelefonoA() {
+		return ingresarTelefonoA;
+	}
+
+	public void setIngresarTelefonoA(JTextField ingresarTelefonoA) {
+		this.ingresarTelefonoA = ingresarTelefonoA;
+	}
+
+	public JTextField getIngresarTelefonoC() {
+		return ingresarTelefonoC;
+	}
+
+	public void setIngresarTelefonoC(JTextField ingresarTelefonoC) {
+		this.ingresarTelefonoC = ingresarTelefonoC;
+	}
+
+	public JTextField getIngresarCorreoA() {
+		return ingresarCorreoA;
+	}
+
+	public void setIngresarCorreoA(JTextField ingresarCorreoA) {
+		this.ingresarCorreoA = ingresarCorreoA;
+	}
+
+	public JTextField getIngresarCorreoC() {
+		return ingresarCorreoC;
+	}
+
+	public void setIngresarCorreoC(JTextField ingresarCorreoC) {
+		this.ingresarCorreoC = ingresarCorreoC;
+	}
+
+	public JTextField getIngresarEmpresa() {
+		return ingresarEmpresa;
+	}
+
+	public void setIngresarEmpresa(JTextField ingresarEmpresa) {
+		this.ingresarEmpresa = ingresarEmpresa;
+	}
+
+	public JButton getBotonPanelA() {
+		return botonPanelA;
+	}
+
+	public void setBotonPanelA(JButton botonPanelA) {
+		this.botonPanelA = botonPanelA;
+	}
+
+	public JButton getBotonPanelC() {
+		return botonPanelC;
+	}
+
+	public void setBotonPanelC(JButton botonPanelC) {
+		this.botonPanelC = botonPanelC;
+	}
+
+	public JButton getBotonGuardarA() {
+		return botonGuardarA;
+	}
+
+	public void setBotonGuardarA(JButton botonGuardarA) {
+		this.botonGuardarA = botonGuardarA;
+	}
+
+	public JButton getBotonGuardarC() {
+		return botonGuardarC;
+	}
+
+	public void setBotonGuardarC(JButton botonGuardarC) {
+		this.botonGuardarC = botonGuardarC;
+	}
+
+	public String[][] getDatos() {
+		return datos;
+	}
+
+	public void setDatos(String[][] datos) {
+		this.datos = datos;
+	}
+
+	public String[][] getDatosContactos() {
+		return datosContactos;
+	}
+
+	public void setDatosContactos(String[][] datosContactos) {
+		this.datosContactos = datosContactos;
+	}
+
+	public DefaultTableModel getMod() {
+		return mod;
+	}
+
+	public void setMod(DefaultTableModel mod) {
+		this.mod = mod;
+	}
+
+	public DefaultTableModel getModContactos() {
+		return modContactos;
+	}
+
+	public void setModContactos(DefaultTableModel modContactos) {
+		this.modContactos = modContactos;
+	}
+
+	public int getFila() {
+		return fila;
+	}
+
+	public void setFila(int fila) {
+		this.fila = fila;
+	}
+
+	public int getFilaContactos() {
+		return filaContactos;
+	}
+
+	public void setFilaContactos(int filaContactos) {
+		this.filaContactos = filaContactos;
+	}
+
+	public String[] getCabezera() {
+		return cabezera;
+	}
+
+	public void setCabezera(String[] cabezera) {
+		this.cabezera = cabezera;
+	}
+
+	public String[] getCabezeraContactos() {
+		return cabezeraContactos;
+	}
+
+	public void setCabezeraContactos(String[] cabezeraContactos) {
+		this.cabezeraContactos = cabezeraContactos;
 	}
 
 	@Override
@@ -279,5 +460,6 @@ public class PanelAgenda extends JPanel implements ActionListener {
 			filaContactos = filaContactos + 1;			
 		}
 	}
+	
 
 }
