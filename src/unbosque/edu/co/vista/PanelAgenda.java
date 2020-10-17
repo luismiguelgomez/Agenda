@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import unbosque.edu.co.controlador.AmigosDto;
 import unbosque.edu.co.controlador.ManejoArchivos;
 
 public class PanelAgenda extends JPanel  implements ActionListener{
@@ -28,7 +33,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	private JTextField ingresarEmpresa;
 	private JButton botonPanelA, botonPanelC;
 	private JButton botonGuardarA, botonGuardarC;
-	private JButton botonEliminar;
+	private JButton botonEliminarC, botonEliminarA;
 	private JButton botonActualizarA, botonActualizarC;
 	
 	private String datos[][];
@@ -39,16 +44,23 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	private int filaContactos;
 	private String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
 	private String[] cabezeraContactos = { "Nombre", "Empresa", "Pais", "Telefono", "Correo" };
-			
+	AmigosDto controladorAmigos;	
+	private final int numeroFilasAmigos = 100;
+	private final int numeroColumAmigos = 4;
+	private final int numeroColumContactos = 5;
+	private JTable tabla;
+	private JTable tablaContactos;
 
 	public PanelAgenda() {
 		ManejoArchivos claseArchivo = new ManejoArchivos();
+		controladorAmigos= new AmigosDto();
+		
 
-		datos=new String [100][4];
-		datosContactos = new String[100][5];
+		datos = new String [numeroFilasAmigos][numeroColumAmigos];
+		datosContactos = new String[numeroFilasAmigos][numeroColumContactos];
 		datosContactos = claseArchivo.mostrarContactos();
-		fila = claseArchivo.getFilaContactos();
-		filaContactos = claseArchivo.getFila();
+		filaContactos = claseArchivo.getFilaContactos();
+		fila = claseArchivo.getFila();
 
 		
 		setLayout(null);
@@ -142,24 +154,19 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		botonGuardarA.addActionListener(this);
 		panel1.add(botonGuardarA);
 		
-		botonEliminar = new JButton("Eliminar");
-		botonEliminar.setBounds(280, 160, 150, 40);
-		botonEliminar.addActionListener(this);
-		panel1.add(botonEliminar);
+		botonEliminarA = new JButton("Eliminar");
+		botonEliminarA.setBounds(280, 160, 150, 40);
+		botonEliminarA.addActionListener(this);
+		panel1.add(botonEliminarA);
 
 
-		botonActualizarC = new JButton("Actualizar");
-		botonActualizarC.setBounds(280, 100, 150, 40);
-		botonActualizarC.addActionListener(this);
-		panel1.add(botonActualizarC);
+		botonActualizarA = new JButton("Actualizar");
+		botonActualizarA.setBounds(280, 100, 150, 40);
+		botonActualizarA.addActionListener(this);
+		panel1.add(botonActualizarA);
 
 		mod = new DefaultTableModel(datos, cabezera);
 		
-
-		JTable tabla = new JTable(mod);
-		JScrollPane scroll = new JScrollPane(tabla);
-		scroll.setBounds(10, 250, 440, 130);
-		panel1.add(scroll);
 	}
 
 	private void panelContactos() {
@@ -203,26 +210,17 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		botonGuardarC.addActionListener(this);
 		panel2.add(botonGuardarC);
 
-		botonEliminar = new JButton("Eliminar");
-		botonEliminar.setBounds(280, 160, 150, 40);
-		botonEliminar.addActionListener(this);
-		panel2.add(botonEliminar);
+		botonEliminarC = new JButton("Eliminar");
+		botonEliminarC.setBounds(280, 160, 150, 40);
+		botonEliminarC.addActionListener(this);
+		panel2.add(botonEliminarC);
 
 		botonActualizarC = new JButton("Actualizar");
 		botonActualizarC.setBounds(280, 100, 150, 40);
 		botonActualizarC.addActionListener(this);
 		panel2.add(botonActualizarC);
-
+		
 		modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
-
-
-		JTable tabla = new JTable(modContactos);
-		JScrollPane scroll = new JScrollPane(tabla);
-		scroll.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Lista de contactos de la empresa"),null));
-
-		scroll.setBounds(10, 215, 440, 160);
-		panel2.add(scroll);
-
 	}
 
 	public JComboBox<String> getPaises() {
@@ -411,6 +409,91 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 			panel2.setVisible(true);
 			panel1.setVisible(false);
 		}
+		
+		if (arg0.getSource() == botonActualizarA) {
+			try {
+				for (int i = 0; i < numeroFilasAmigos; i++) {
+					for (int j = 0; j < numeroColumAmigos; j++) {
+						if (datos[i][j].equals(ingresarNombreA.getText())) {
+							System.out.println(datos[i][j]);
+							datos[i][0] = ingresarNombreA.getText();
+							datos[i][1] = (String) paises.getSelectedItem();
+							datos[i][2] = ingresarTelefonoA.getText();
+							datos[i][3] = ingresarCorreoA.getText();
+						}
+						
+					}
+				}
+			} catch (Exception e) {
+			}
+			JTable tabla = new JTable(datos, cabezera) {
+				
+				public boolean isCellEditable(int fila, int columna) {
+					
+					if (columna == 4) {
+						return true;
+					}else{
+						return false;
+					}
+				};
+			};
+			JScrollPane scroll = new JScrollPane(tabla);
+			scroll.setBounds(10, 250, 440, 130);
+			panel1.add(scroll);
+
+		}
+		
+		if (arg0.getSource() == botonEliminarA) {			
+					
+			try {
+				for (int i = 0; i < numeroFilasAmigos; i++) {
+					for (int j = 0; j < numeroColumAmigos; j++) {
+						if (datos[i][j].equals(ingresarNombreA.getText())) {
+							System.out.println(datos[i][j]);
+							datos[i][0] = null;
+							datos[i][1] = null;
+							datos[i][2] = null;
+							datos[i][3] = null;
+							fila = fila - 1;
+							
+							tabla.addMouseListener((MouseListener) new MouseAdapter() {
+						          @Override
+						          public void mouseClicked(MouseEvent a) {
+						              // Obtener la fila seleccionada
+						              for (int i = 0; i < tabla.getRowCount(); i++) {
+						                  Boolean checked = Boolean.valueOf(tabla.getValueAt(i, 4).toString());
+						                  int fila = tabla.rowAtPoint(a.getPoint());
+
+						                  if (checked) {
+						                      ArrayList<Integer> selection = new ArrayList<Integer>();
+						                      selection.add(fila);
+						                      System.out.println(fila);
+						                  }
+						              }
+						          }
+						      });
+							
+						}
+					}
+				}
+			} catch (Exception e) {
+			}
+			 tabla = new JTable(datos, cabezera) {
+				
+				public boolean isCellEditable(int fila, int columna) {
+					
+					if (columna == 4) {
+						return true;
+					}else{
+						return false;
+					}
+				};
+			};
+			JScrollPane scroll = new JScrollPane(tabla);
+			scroll.setBounds(10, 250, 440, 130);
+			panel1.add(scroll);
+		}
+		
 		if (arg0.getSource() == botonGuardarA) {
 
 			String nombreAmigo;
@@ -436,7 +519,20 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 				};
 			};
 
-			JTable tabla = new JTable(mod);
+				JTable tabla = new JTable(datos, cabezera) {
+				
+				public boolean isCellEditable(int fila, int columna) {
+					
+					if (columna == 4) {
+						return true;
+					}else{
+						return false;
+					}
+					
+					
+					
+				};
+			};
 			JScrollPane scroll = new JScrollPane(tabla);
 			scroll.setBounds(10, 250, 440, 130);
 			panel1.add(scroll);
@@ -445,7 +541,6 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		}
 		if (arg0.getSource() == botonGuardarC) {
 
-			System.out.println(ingresarNombreC.getText());
 			datosContactos[filaContactos][0]= ingresarNombreC.getText();
 			datosContactos[filaContactos][1]= ingresarEmpresa.getText();
 			datosContactos[filaContactos][2]= (String) paises.getSelectedItem();
@@ -453,14 +548,99 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 			datosContactos[filaContactos][4]= ingresarCorreoC.getText();
 			
 			modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
-
-			JTable tabla = new JTable(modContactos);
+			
+			JTable tabla = new JTable(modContactos) {
+				public boolean isCellEditable(int fila, int columna) {
+					
+					if (columna == 4) {
+						return true;
+					}else{
+						return false;
+					}
+					
+					
+					
+				};
+			};
 			JScrollPane scroll = new JScrollPane(tabla);
 			scroll.setBounds(10, 250, 440, 130);
 			panel2.add(scroll);
 			filaContactos = filaContactos + 1;			
 		}
+		
+		if (arg0.getSource() == botonEliminarC) {
+			try {
+				for (int i = 0; i < numeroFilasAmigos; i++) {
+					for (int j = 0; j < numeroColumAmigos; j++) {
+						if (datosContactos[i][j].equals(ingresarNombreC.getText())) {
+							datosContactos[i][0] = null;
+							datosContactos[i][1] = null;
+							datosContactos[i][2] = null;
+							datosContactos[i][3] = null;
+							datosContactos[i][4] = null;
+							filaContactos = filaContactos - 1;
+						}
+					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
+			
+			JTable tabla = new JTable(modContactos) {
+				public boolean isCellEditable(int fila, int columna) {
+					
+					if (columna == 4) {
+						return true;
+					}else{
+						return false;
+					}
+					
+					
+					
+				};
+			};
+			JScrollPane scroll = new JScrollPane(tabla);
+			scroll.setBounds(10, 250, 440, 130);
+			panel2.add(scroll);
+		}
+		
+		
+		if (arg0.getSource() == botonActualizarC) {
+			try {
+				for (int i = 0; i < numeroFilasAmigos; i++) {
+					for (int j = 0; j < numeroColumAmigos; j++) {
+						if (datosContactos[i][j].equals(ingresarNombreC.getText())) {
+							datosContactos[i][1]= ingresarEmpresa.getText();
+							datosContactos[i][2] = (String) paises.getSelectedItem();
+							datosContactos[i][3] = ingresarTelefonoC.getText();
+							datosContactos[i][4] = ingresarCorreoC.getText();
+						}
+						
+					}
+				}
+			} catch (Exception e) {
+			}
+			
+			modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
+			
+			JTable tabla = new JTable(modContactos) {
+				public boolean isCellEditable(int fila, int columna) {
+					
+					if (columna == 4) {
+						return true;
+					}else{
+						return false;
+					}
+					
+				};
+			};
+			JScrollPane scroll = new JScrollPane(tabla);
+			scroll.setBounds(10, 250, 440, 130);
+			panel2.add(scroll);
+			
+		}
+		
 	}
-	
 
 }

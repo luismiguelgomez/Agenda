@@ -26,6 +26,7 @@ public class Controlador implements ActionListener {
 	private void asignarOyentes() {
 		v.getBotonA().addActionListener(this);
 		v.getBotonS().addActionListener(this);
+	
 
 //		agenda.getBotonPanelA().addActionListener(this);
 //		agenda.getBotonPanelC().addActionListener(this);
@@ -40,7 +41,10 @@ public class Controlador implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == v.getBotonA()) {
 //			v.definirPanel(v.getAgenda());
+			v.getBotonS().setVisible(false);
+			v.getBotonA().setVisible(false);
 			v.definirPanel(agenda);
+			
 		}
 
 		if (arg0.getSource() == v.getBotonS()) {

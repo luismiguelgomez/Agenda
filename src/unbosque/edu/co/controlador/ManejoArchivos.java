@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class ManejoArchivos {
 	File f;
@@ -40,15 +41,20 @@ public class ManejoArchivos {
 	}
 
 	public String[][] mostrarContactos() {
-		for (int i = 1; i <= 3; i++) {
-			contacto[filaContactos][0] = pro.getProperty("contacto.nombre" + i);
-			contacto[filaContactos][1] = pro.getProperty("contacto.empresa" + i);
-			contacto[filaContactos][2] = pro.getProperty("contacto.pais" + i);
-			contacto[filaContactos][3] = pro.getProperty("contacto.telefonoManager" + i);
-			contacto[filaContactos][4] = pro.getProperty("contacto.correo" + i);
-			
-			filaContactos = filaContactos + 1;
+		try {
+			for (int i = 1; i <= 3; i++) {
+				contacto[filaContactos][0] = pro.getProperty("contacto.nombre" + i);
+				contacto[filaContactos][1] = pro.getProperty("contacto.empresa" + i);
+				contacto[filaContactos][2] = pro.getProperty("contacto.pais" + i);
+				contacto[filaContactos][3] = pro.getProperty("contacto.telefonoManager" + i);
+				contacto[filaContactos][4] = pro.getProperty("contacto.correo" + i);
+				
+				filaContactos = filaContactos + 1;
+			}
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "Debe seleccionar un properties");
 		}
+		
 		return contacto;
 	}
 
