@@ -55,12 +55,18 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		ManejoArchivos claseArchivo = new ManejoArchivos();
 		controladorAmigos= new AmigosDto();
 		
-
+		//Logica para amigos
 		datos = new String [numeroFilasAmigos][numeroColumAmigos];
+		datos = claseArchivo.mostrarAmigos();
+		fila = claseArchivo.getFila();
+		
+		//Logica para contactos
 		datosContactos = new String[numeroFilasAmigos][numeroColumContactos];
 		datosContactos = claseArchivo.mostrarContactos();
 		filaContactos = claseArchivo.getFilaContactos();
-		fila = claseArchivo.getFila();
+		
+		
+		
 
 		
 		setLayout(null);
@@ -447,36 +453,20 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 					
 			try {
 				for (int i = 0; i < numeroFilasAmigos; i++) {
-					for (int j = 0; j < numeroColumAmigos; j++) {
-						if (datos[i][j].equals(ingresarNombreA.getText())) {
-							System.out.println(datos[i][j]);
+					for (int j = 0; j < 3; j++) {
+						System.out.println("datos[i][j]" + datos[i][j]);
+						if (datos[i][j].equals(ingresarNombreC.getText())) {
 							datos[i][0] = null;
 							datos[i][1] = null;
 							datos[i][2] = null;
 							datos[i][3] = null;
+							datos[i][4] = null;
 							fila = fila - 1;
-							
-							tabla.addMouseListener((MouseListener) new MouseAdapter() {
-						          @Override
-						          public void mouseClicked(MouseEvent a) {
-						              // Obtener la fila seleccionada
-						              for (int i = 0; i < tabla.getRowCount(); i++) {
-						                  Boolean checked = Boolean.valueOf(tabla.getValueAt(i, 4).toString());
-						                  int fila = tabla.rowAtPoint(a.getPoint());
-
-						                  if (checked) {
-						                      ArrayList<Integer> selection = new ArrayList<Integer>();
-						                      selection.add(fila);
-						                      System.out.println(fila);
-						                  }
-						              }
-						          }
-						      });
-							
 						}
 					}
 				}
 			} catch (Exception e) {
+				// TODO: handle exception
 			}
 			 tabla = new JTable(datos, cabezera) {
 				
@@ -496,9 +486,6 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		
 		if (arg0.getSource() == botonGuardarA) {
 
-			String nombreAmigo;
-			String correoAmigo;
-			String telefonoAmigo;
 			datos[fila][0]=	ingresarNombreA.getText();
 			datos[fila][1]=	(String) paises.getSelectedItem();
 			datos[fila][2]= ingresarTelefonoA.getText();
@@ -523,7 +510,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 				
 				public boolean isCellEditable(int fila, int columna) {
 					
-					if (columna == 4) {
+					if (columna == 3) {
 						return true;
 					}else{
 						return false;
@@ -571,7 +558,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		if (arg0.getSource() == botonEliminarC) {
 			try {
 				for (int i = 0; i < numeroFilasAmigos; i++) {
-					for (int j = 0; j < numeroColumAmigos; j++) {
+					for (int j = 0; j < numeroColumContactos; j++) {
 						if (datosContactos[i][j].equals(ingresarNombreC.getText())) {
 							datosContactos[i][0] = null;
 							datosContactos[i][1] = null;
@@ -609,7 +596,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		if (arg0.getSource() == botonActualizarC) {
 			try {
 				for (int i = 0; i < numeroFilasAmigos; i++) {
-					for (int j = 0; j < numeroColumAmigos; j++) {
+					for (int j = 0; j < 3; j++) {
 						if (datosContactos[i][j].equals(ingresarNombreC.getText())) {
 							datosContactos[i][1]= ingresarEmpresa.getText();
 							datosContactos[i][2] = (String) paises.getSelectedItem();

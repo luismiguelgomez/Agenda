@@ -59,7 +59,7 @@ public class ManejoArchivos {
 	}
 
 	public String[][] mostrarAmigos() {
-		for (int i = 0; i <= 4; i++) {
+		for (int i = 1; i <= 4; i++) {
 			amigo[fila][0] = pro.getProperty("amigo.nombre" + i);
 			amigo[fila][1] = pro.getProperty("amigo.pais" + i);
 			amigo[fila][2] = pro.getProperty("amigo.telefono" + i);
