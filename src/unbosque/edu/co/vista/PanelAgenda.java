@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import unbosque.edu.co.controlador.AmigosDto;
+import unbosque.edu.co.controlador.ContactoDto;
 import unbosque.edu.co.controlador.ManejoArchivos;
 import unbosque.edu.co.controlador.Persistencia;
 
@@ -43,13 +44,14 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	private int filaContactos;
 	private String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
 	private String[] cabezeraContactos = { "Nombre", "Empresa", "Pais", "Telefono", "Correo" };
-	AmigosDto controladorAmigos;	
 	private final int numeroFilasAmigos = 100;
 	private final int numeroColumAmigos = 4;
 	private final int numeroColumContactos = 5;
 	private JTable tabla;
 	private JTable tablaContactos;
 	private Persistencia clasePersistencia;
+	private AmigosDto claseAmigosDto;
+	private ContactoDto claseContactoDto;
 
 	/**
 	 * <b>precondiciones:</b> 
@@ -59,8 +61,9 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	 */
 	public PanelAgenda() {
 		ManejoArchivos claseArchivo = new ManejoArchivos();
-		controladorAmigos= new AmigosDto();
+		claseAmigosDto = new AmigosDto();
 		clasePersistencia = new Persistencia();
+		claseContactoDto = new ContactoDto();
 		
 		//Logica para amigos
 		datos = new String [numeroFilasAmigos][numeroColumAmigos];
@@ -473,19 +476,14 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		
 		if (arg0.getSource() == botonActualizarA) {
 			try {
-				for (int i = 0; i < numeroFilasAmigos; i++) {
-					for (int j = 0; j < numeroColumAmigos; j++) {
-						if (datos[i][j].equals(ingresarNombreA.getText())) {
-							System.out.println(datos[i][j]);
-							datos[i][0] = ingresarNombreA.getText();
-							datos[i][1] = (String) paises.getSelectedItem();
-							datos[i][2] = ingresarTelefonoA.getText();
-							datos[i][3] = ingresarCorreoA.getText();
-						}
-						
-					}
-				}
+				String nombreA = ingresarNombreA.getText();
+				String pais =	(String) paises.getSelectedItem();
+				String telefonoA = ingresarTelefonoA.getText();
+				String correoA = ingresarCorreoA.getText();
+				String datosAux[][] = datos;
+				datos = claseAmigosDto.ActualizarAmigo(datosAux, nombreA, pais, telefonoA, correoA);
 			} catch (Exception e) {
+				// TODO: handle exception
 			}
 			JTable tabla = new JTable(datos, cabezera) {
 				
@@ -504,25 +502,11 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 
 		}
 		
-		if (arg0.getSource() == botonEliminarA) {			
-					
-			try {
-				for (int i = 0; i < numeroFilasAmigos; i++) {
-					for (int j = 0; j < 3; j++) {
-						System.out.println("datos[i][j]" + datos[i][j]);
-						if (datos[i][j].equals(ingresarNombreC.getText())) {
-							datos[i][0] = null;
-							datos[i][1] = null;
-							datos[i][2] = null;
-							datos[i][3] = null;
-							datos[i][4] = null;
-							fila = fila - 1;
-						}
-					}
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+		if (arg0.getSource() == botonEliminarA) {
+			String datosAux[][] = datos;
+			String nombreA = ingresarNombreA.getText();
+			datos = claseAmigosDto.eliminarAmigo(datosAux, nombreA);
+			
 			 tabla = new JTable(datos, cabezera) {
 				
 				public boolean isCellEditable(int fila, int columna) {
@@ -534,6 +518,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 					}
 				};
 			};
+			fila = fila -1;
 			JScrollPane scroll = new JScrollPane(tabla);
 			scroll.setBounds(10, 250, 440, 130);
 			panel1.add(scroll);
@@ -541,10 +526,14 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		
 		if (arg0.getSource() == botonGuardarA) {
 
-			datos[fila][0]=	ingresarNombreA.getText();
-			datos[fila][1]=	(String) paises.getSelectedItem();
-			datos[fila][2]= ingresarTelefonoA.getText();
-			datos[fila][3]= ingresarCorreoA.getText();
+			String nombreA = ingresarNombreA.getText();
+			String pais = (String) paises.getSelectedItem();
+			String telefonoA= ingresarTelefonoA.getText();
+			String correoA = ingresarCorreoA.getText();
+			
+			String datosAux[][] = datos;
+			datos = claseAmigosDto.agregarAmigo(datosAux, nombreA, pais, telefonoA, correoA, fila);
+			
 			String[] cabezera = { "Nombre", "Pais", "Telefono", "Correo" };
 			mod = new DefaultTableModel(datos, cabezera) {
 				
@@ -577,10 +566,6 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 			};
 			
 			try {
-				String nombreA =  ingresarNombreA.getText();
-				String correoA = ingresarCorreoA.getText();
-				String telefonoA = ingresarTelefonoA.getText();
-				String pais = (String) paises.getSelectedItem();
 				clasePersistencia.crearArchivo(nombreA, correoA, telefonoA, pais);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -590,17 +575,16 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 			scroll.setBounds(10, 250, 440, 130);
 			panel1.add(scroll);
 			fila = fila + 1;
-			
-			
-		
 		}
 		if (arg0.getSource() == botonGuardarC) {
-
-			datosContactos[filaContactos][0]= ingresarNombreC.getText();
-			datosContactos[filaContactos][1]= ingresarEmpresa.getText();
-			datosContactos[filaContactos][2]= (String) paises.getSelectedItem();
-			datosContactos[filaContactos][3]= ingresarTelefonoC.getText();
-			datosContactos[filaContactos][4]= ingresarCorreoC.getText();
+			String datosAux[][] = datosContactos;
+			String nombreC = ingresarNombreC.getText();
+			String empresa = ingresarEmpresa.getText();
+			String pais= (String) paises.getSelectedItem();
+			String telefonoC= ingresarTelefonoC.getText();
+			String correoC = ingresarCorreoC.getText();
+			datosContactos = claseContactoDto.agregarContacto(datosAux, nombreC, empresa, pais, telefonoC, correoC, filaContactos);
+			
 			
 			modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
 			
@@ -618,12 +602,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 				};
 			};
 			try {
-				String nombreC =  ingresarNombreC.getText();
-				String empresaC = ingresarEmpresa.getText();
-				String correoC = ingresarCorreoC.getText();
-				String telefonoC = ingresarTelefonoC.getText();
-				String pais = (String) paises.getSelectedItem();
-				clasePersistencia.crearArchivoContactos(nombreC, empresaC, correoC, telefonoC, pais);
+				clasePersistencia.crearArchivoContactos(nombreC, empresa, correoC, telefonoC, pais);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -636,22 +615,9 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		}
 		
 		if (arg0.getSource() == botonEliminarC) {
-			try {
-				for (int i = 0; i < numeroFilasAmigos; i++) {
-					for (int j = 0; j < numeroColumContactos; j++) {
-						if (datosContactos[i][j].equals(ingresarNombreC.getText())) {
-							datosContactos[i][0] = null;
-							datosContactos[i][1] = null;
-							datosContactos[i][2] = null;
-							datosContactos[i][3] = null;
-							datosContactos[i][4] = null;
-							filaContactos = filaContactos - 1;
-						}
-					}
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+			String datosAux[][] = datosContactos;
+			String nombreC = ingresarNombreC.getText();
+			datosContactos = claseContactoDto.eliminarContacto(datosAux, nombreC);
 			modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
 			
 			JTable tabla = new JTable(modContactos) {
@@ -667,6 +633,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 					
 				};
 			};
+			filaContactos = filaContactos - 1;
 			JScrollPane scroll = new JScrollPane(tabla);
 			scroll.setBounds(10, 250, 440, 130);
 			panel2.add(scroll);
@@ -674,20 +641,13 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		
 		
 		if (arg0.getSource() == botonActualizarC) {
-			try {
-				for (int i = 0; i < numeroFilasAmigos; i++) {
-					for (int j = 0; j < 3; j++) {
-						if (datosContactos[i][j].equals(ingresarNombreC.getText())) {
-							datosContactos[i][1]= ingresarEmpresa.getText();
-							datosContactos[i][2] = (String) paises.getSelectedItem();
-							datosContactos[i][3] = ingresarTelefonoC.getText();
-							datosContactos[i][4] = ingresarCorreoC.getText();
-						}
-						
-					}
-				}
-			} catch (Exception e) {
-			}
+			String datosAux[][] = datosContactos;
+			String nombreC = ingresarNombreC.getText();
+			String empresa = ingresarEmpresa.getText();
+			String pais= (String) paises.getSelectedItem();
+			String telefonoC= ingresarTelefonoC.getText();
+			String correoC = ingresarCorreoC.getText();
+			datosContactos = claseContactoDto.actualizarContacto(datosAux, nombreC, empresa, pais, telefonoC, correoC);
 			
 			modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
 			

@@ -17,8 +17,6 @@ public class View extends JFrame {
 
 	// atributos de la interaz
 
-	private JLabel label;
-	private ImageIcon imagenF;
 	private JButton botonA;
 	private JButton botonS;
 	private JPanel panel;
@@ -59,72 +57,37 @@ public class View extends JFrame {
 		panel.setBounds(0, 0, getWidth(), getHeight());
 		add(panel);
 
-		label = new JLabel();
+		JLabel label = new JLabel();
 		label.setBounds(0, 0, getWidth(), getHeight());
-		imagenF = new ImageIcon("src/unbosque/edu/co/vista/imagenes/fondo.jpg");
+		ImageIcon imagenF = new ImageIcon("src/unbosque/edu/co/vista/imagenes/fondo.jpg");
 		imagenF = new ImageIcon(imagenF.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT));
 		label.setIcon(imagenF);
-		panel.add(label, 0);
+		panel.add(label);
 
 		botonA = new JButton();
 		botonA.setBounds(400, 250, 90, 80);
-		imagenF = new ImageIcon("src/unbosque/edu/co/vista/imagenes/contactosL.png");
-		imagenF = new ImageIcon(imagenF.getImage().getScaledInstance(90, 80, Image.SCALE_DEFAULT));
+		ImageIcon imagenL = new ImageIcon("src/unbosque/edu/co/vista/imagenes/contactosL.png");
+		imagenL = new ImageIcon(imagenL.getImage().getScaledInstance(90, 80, Image.SCALE_DEFAULT));
 		botonA.setOpaque(false);
 		botonA.setBackground(new Color(0, 0, 0, 0));
 		botonA.setBorder(null);
-		botonA.setIcon(imagenF);
+		botonA.setIcon(imagenL);
 //		botonA.addActionListener(this);
 
 		botonS = new JButton();
 		botonS.setBounds(400, 350, 90, 80);
-		imagenF = new ImageIcon("src/unbosque/edu/co/vista/imagenes/uno-removebg-preview.png");
-		imagenF = new ImageIcon(imagenF.getImage().getScaledInstance(90, 80, Image.SCALE_DEFAULT));
+		ImageIcon imagenP = new ImageIcon("src/unbosque/edu/co/vista/imagenes/uno-removebg-preview.png");
+		imagenP = new ImageIcon(imagenP.getImage().getScaledInstance(90, 80, Image.SCALE_DEFAULT));
 		botonS.setOpaque(false);
 		botonS.setBackground(new Color(0, 0, 0, 0));
 		botonS.setBorder(null);
-		botonS.setIcon(imagenF);
+		botonS.setIcon(imagenP);
 //		botonS.addActionListener(this);
 
 		panel.add(botonA, 0);
 		panel.add(botonS, 0);
 		add(scroll);
 
-	}
-
-	/**
-	 * <b>precondiciones:</b> Tener creado:<br>label
-	 * <b>poscondiciones</b> retorna imagen
-	 * @return Jlabel con imagen
-	 */
-	public JLabel getLabel() {
-		return label;
-	}
-
-	/**
-	 * <b>precondiciones:</b> Tener creado:<br>label
-	 * <b>poscondiciones</b> mostrar img
-	 * @param label ruta de img
-	 */
-	public void setLabel(JLabel label) {
-		this.label = label;
-	}
-
-	/**
-	 * <b>precondiciones:</b> Tener creado:<br>imgIcon
-	 * <b>poscondiciones</b> ruta img
-	 * @return ruta img
-	 */
-	public ImageIcon getImagenF() {
-		return imagenF;
-	}
-
-	/**
-	 * 
-	 * @param imagenF img
-	 */
-	public void setImagenF(ImageIcon imagenF) {
-		this.imagenF = imagenF;
 	}
 
 	public JButton getBotonA() {
