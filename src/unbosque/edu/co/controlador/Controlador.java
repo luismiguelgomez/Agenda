@@ -1,15 +1,12 @@
 package unbosque.edu.co.controlador;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import unbosque.edu.co.vista.PanelAgenda;
 import unbosque.edu.co.vista.View;
-
+ 
 public class Controlador implements ActionListener {
 	View v;
 	PanelAgenda agenda;

@@ -2,15 +2,15 @@ package unbosque.edu.co.vista;
 
 import java.awt.Color;   
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -52,6 +52,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	private Persistencia clasePersistencia;
 	private AmigosDto claseAmigosDto;
 	private ContactoDto claseContactoDto;
+	private JButton botonInfo;
 
 	/**
 	 * <b>precondiciones:</b> 
@@ -92,7 +93,18 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	 * <b>poscondiciones</b> Inicia los componentes de la clase
 	 */
 	private void iniciarComponentes() {
-
+		
+		botonInfo = new JButton();
+		botonInfo.setBounds(600, 30, 230, 60);
+		ImageIcon imgInfo =	new ImageIcon("src/unbosque/edu/co/vista/imagenes/Info.png");
+		imgInfo = new ImageIcon(imgInfo.getImage().getScaledInstance(230, 60, Image.SCALE_DEFAULT));
+		botonInfo.setOpaque(false);
+		botonInfo.setBackground(new Color(0,0,0,0));
+		botonInfo.setBorder(null);
+		botonInfo.setIcon(imgInfo);
+		botonInfo.addActionListener(this);
+		add(botonInfo);
+		
 		JLabel titulo = new JLabel("AGENDA");
 
 		titulo.setFont(new Font("", Font.PLAIN, 20));
@@ -106,7 +118,7 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		paises.setBounds(80, 90, 150, 30);
 		paises.addItem("Colombia");
 		paises.addItem("Peru");
-		paises.addItem("EspaÃ±a");
+		paises.addItem("España");
 		paises.addItem("Chile");
 		paises.addItem("Mexico");
 		paises.addItem("Argentina");
@@ -473,11 +485,46 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 			panel2.setVisible(true);
 			panel1.setVisible(false);
 		}
+
+		if (arg0.getSource() == botonInfo) {
+			claseContactoDto.contarPaises(datosContactos);
+			int colombia = claseContactoDto.getColombia();
+			int peru = claseContactoDto.getPeru();
+			int espania = claseContactoDto.getEspania();
+			int chile = claseContactoDto.getChile();
+			int mexico = claseContactoDto.getMexico();
+			int argentina = claseContactoDto.getArgentina();
+			JOptionPane.showMessageDialog
+			(null, "Contactos colombianos: " +colombia + "\n" +
+					"Contactos peruanos: " +peru+ "\n" +
+					"Contactos espania: " +espania+ "\n" +
+					"Contactos chile: " +chile + "\n" +
+					"Contactos mexico: " +mexico+ "\n" +
+					"Contactos argentina: " +argentina + "\n", "Conteo contactos",
+			        JOptionPane.INFORMATION_MESSAGE);
+			
+			claseAmigosDto.contarPaises(datos);
+			int colombiaA = claseAmigosDto.getColombia();
+			int peruA = claseAmigosDto.getPeru();
+			int espaniaA = claseAmigosDto.getEspania();
+			int chileA = claseAmigosDto.getChile();
+			int mexicoA = claseAmigosDto.getMexico();
+			int argentinaA = claseAmigosDto.getArgentina();
+			JOptionPane.showMessageDialog
+			(null, "Amigos colombianos:" +colombiaA + "\n" +
+					"Amigos peruanos:" +peruA+ "\n" +
+					"Amigos espania:" +espaniaA+ "\n" +
+					"Amigos chile:" +chileA + "\n" +
+					"Amigos mexico:" +mexicoA+ "\n" +
+					"Amigos argentina:" +argentinaA + "\n", "Conteo amigos",
+			        JOptionPane.INFORMATION_MESSAGE);
+			
+		}
 		
 		if (arg0.getSource() == botonActualizarA) {
 			try {
 				String nombreA = ingresarNombreA.getText();
-				String pais =	(String) paises.getSelectedItem();
+				String pais = (String) paises.getSelectedItem();
 				String telefonoA = ingresarTelefonoA.getText();
 				String correoA = ingresarCorreoA.getText();
 				String datosAux[][] = datos;

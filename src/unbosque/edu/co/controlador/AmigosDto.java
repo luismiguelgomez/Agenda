@@ -1,14 +1,14 @@
 package unbosque.edu.co.controlador;
 
-import unbosque.edu.co.modelo.AmigosDao;
-import unbosque.edu.co.vista.PanelAgenda;
+import unbosque.edu.co.modelo.AmigosDao; 
 
 public class AmigosDto {
 	
 	AmigosDao claseDtoAmigos;
 	String datosAmigos[][];
 	private final int numeroFilasAmigos = 100;
-	private final int numeroColumAmigos = 4;
+	private int Colombia;
+	private int Peru, Espania, chile, mexico, argentina;
 	
 	/**
 	 * <b>precondiciones:</b> Tener una matriz datosAmigos 
@@ -91,8 +91,10 @@ public class AmigosDto {
 	public String [][] eliminarAmigo (String datosAux [][], String nombreA ) {
 		datosAmigos = datosAux;
 		try {
+			
 			for (int i = 0; i < numeroFilasAmigos; i++) {
 				for (int j = 0; j < 3; j++) {
+					 
 					if (datosAmigos[i][j].equals(nombreA)) {
 						datosAmigos[i][0] = null;
 						datosAmigos[i][1] = null;
@@ -122,7 +124,7 @@ public class AmigosDto {
 	 */
 	public String [][] agregarAmigo (String datosAux [][],String nombreA,String pais, String telefonoA, String correoA, int pFila) {
 		datosAmigos = datosAux;
-		
+
 		try {
 			datosAmigos[pFila][0]= nombreA;
 			datosAmigos[pFila][1]= pais;
@@ -134,5 +136,88 @@ public class AmigosDto {
 		}
 		return datosAmigos;
 	}
+	
+	public void contarPaises(String matriz[][]) {
+		datosAmigos = matriz;
+		try {
+			for (int i = 0; i < numeroFilasAmigos; i++) {
+				for (int j = 0; j < 1; j++) {
+					String pais = datosAmigos[i][1];
+
+					if (pais.equals("Colombia")) {
+						Colombia = Colombia + 1;
+					}
+					if (pais.equals("Peru")) {
+						Peru = Peru + 1;
+					}
+					if (pais.equals("España")) {
+						Espania = Espania + 1;
+					}
+					if (pais.equals("Chile")) {
+						chile = chile + 1;
+					}
+					if (pais.equals("Mexico")) {
+						mexico = mexico + 1;
+					}
+					if (pais.equals("Argentina")) {
+						argentina = argentina + 1;
+					}
+				}
+
+			}
+		} catch (Exception e) {
+		}
+		System.out.println("aqui voy");
+	}
+
+	public int getColombia() {
+		return Colombia;
+	}
+
+	public void setColombia(int colombia) {
+		Colombia = colombia;
+	}
+
+	public int getPeru() {
+		return Peru;
+	}
+
+	public void setPeru(int peru) {
+		Peru = peru;
+	}
+
+	public int getEspania() {
+		return Espania;
+	}
+
+	public void setEspania(int espania) {
+		Espania = espania;
+	}
+
+	public int getChile() {
+		return chile;
+	}
+
+	public void setChile(int chile) {
+		this.chile = chile;
+	}
+
+	public int getMexico() {
+		return mexico;
+	}
+
+	public void setMexico(int mexico) {
+		this.mexico = mexico;
+	}
+
+	public int getArgentina() {
+		return argentina;
+	}
+
+	public void setArgentina(int argentina) {
+		this.argentina = argentina;
+	}
+	
+	
 
 }
