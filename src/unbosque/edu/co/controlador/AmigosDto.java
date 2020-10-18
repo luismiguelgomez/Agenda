@@ -7,6 +7,7 @@ public class AmigosDto {
 	AmigosDao claseDtoAmigos;
 	String datosAmigos[][];
 	private final int numeroFilasAmigos = 100;
+	private final int numeroColumAmigos = 4;
 	private int Colombia;
 	private int Peru, Espania, chile, mexico, argentina;
 	
