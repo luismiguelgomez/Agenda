@@ -1,10 +1,7 @@
 package unbosque.edu.co.vista;
 
-import java.awt.Color;
+import java.awt.Color; 
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +26,11 @@ public class View extends JFrame {
 	private JScrollPane scroll;
 	private PanelAgenda agenda;
 
+	/**
+	 * <b>precondiciones:</b> tener creado el metodo de iniciarComponentes
+	 * <br>
+	 * <b>poscondiciones</b> mostrar la primera vista del programa
+	 */
 	public View() {
 
 		setSize(939, 625);
@@ -40,6 +42,11 @@ public class View extends JFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * <b>precondiciones:</b> Tener creado:<br>
+	 *	 agenda, scroll, label, imagenF, botonA, botonS
+	 * <b>poscondiciones</b> Mostrar vista
+	 */
 	public void iniciarComponentes() {
 		agenda = new PanelAgenda();
 		scroll = new JScrollPane();
@@ -85,18 +92,37 @@ public class View extends JFrame {
 
 	}
 
+	/**
+	 * <b>precondiciones:</b> Tener creado:<br>label
+	 * <b>poscondiciones</b> retorna imagen
+	 * @return Jlabel con imagen
+	 */
 	public JLabel getLabel() {
 		return label;
 	}
 
+	/**
+	 * <b>precondiciones:</b> Tener creado:<br>label
+	 * <b>poscondiciones</b> mostrar img
+	 * @param label ruta de img
+	 */
 	public void setLabel(JLabel label) {
 		this.label = label;
 	}
 
+	/**
+	 * <b>precondiciones:</b> Tener creado:<br>imgIcon
+	 * <b>poscondiciones</b> ruta img
+	 * @return ruta img
+	 */
 	public ImageIcon getImagenF() {
 		return imagenF;
 	}
 
+	/**
+	 * 
+	 * @param imagenF img
+	 */
 	public void setImagenF(ImageIcon imagenF) {
 		this.imagenF = imagenF;
 	}

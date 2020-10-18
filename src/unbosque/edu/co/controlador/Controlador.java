@@ -15,6 +15,12 @@ public class Controlador implements ActionListener {
 	PanelAgenda agenda;
 	private DefaultTableModel mod;
 
+	/**
+	 * Metodo constructor
+	 * <b>precondiciones:</b> Ser llamado desde AplMain
+	 * <br>
+	 * <b>poscondiciones</b> cargar la clase View y tener el action performed de esta 
+	 */
 	public Controlador() {
 		v = new View();
 		agenda = new PanelAgenda();
@@ -23,6 +29,13 @@ public class Controlador implements ActionListener {
 //		v.setVisible(true);
 	}
 
+	/**
+	 * <b>precondiciones:</b> Ser llamado desde el metodo constructor
+	 * <br>
+	 * <b>poscondiciones</b> 
+	 * Agregar las acciones para el boton que puede salir del programa,
+	 * Agregar la accion para continuar   
+	 */
 	private void asignarOyentes() {
 		v.getBotonA().addActionListener(this);
 		v.getBotonS().addActionListener(this);
@@ -38,6 +51,12 @@ public class Controlador implements ActionListener {
 	}
 
 	@Override
+	/**
+	 * Action performed
+	 * <b>precondiciones:</b> Tener el botonA en la clase View, tiener el botonS en la clase View
+	 * <br>
+	 * <b>poscondiciones</b> Dar funcionalidad a los botones de salir y continuar
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == v.getBotonA()) {
 //			v.definirPanel(v.getAgenda());

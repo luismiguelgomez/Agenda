@@ -1,14 +1,12 @@
 package unbosque.edu.co.vista;
 
-import java.awt.Color;  
+import java.awt.Color;   
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import unbosque.edu.co.controlador.AmigosDto;
 import unbosque.edu.co.controlador.ManejoArchivos;
+import unbosque.edu.co.controlador.Persistencia;
 
 public class PanelAgenda extends JPanel  implements ActionListener{
 
@@ -50,10 +49,18 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	private final int numeroColumContactos = 5;
 	private JTable tabla;
 	private JTable tablaContactos;
+	private Persistencia clasePersistencia;
 
+	/**
+	 * <b>precondiciones:</b> 
+	 * Tener creado la clase ManejoArchivos, tener creado la matriz datos y la matriz datosContactos, tener creado la variable fila, filaContactos, 
+	 * <br>
+	 * <b>poscondiciones</b> Inicia los valores de panelAgenda
+	 */
 	public PanelAgenda() {
 		ManejoArchivos claseArchivo = new ManejoArchivos();
 		controladorAmigos= new AmigosDto();
+		clasePersistencia = new Persistencia();
 		
 		//Logica para amigos
 		datos = new String [numeroFilasAmigos][numeroColumAmigos];
@@ -65,10 +72,6 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		datosContactos = claseArchivo.mostrarContactos();
 		filaContactos = claseArchivo.getFilaContactos();
 		
-		
-		
-
-		
 		setLayout(null);
 		setBackground(Color.WHITE);
 
@@ -76,6 +79,15 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		setVisible(true);
 	}
 
+	/**
+	 * <b>precondiciones:</b> JLabel titulo,JLabel texto,
+	 *	JComboBox<String> paises
+	 *	JPanel panel1, JPanel panel2,
+	 *	JButton botonPanelA,botonPanelC,
+	 *	metodos: PanelAmigos() panelContactos(), 
+	 * <br>
+	 * <b>poscondiciones</b> Inicia los componentes de la clase
+	 */
 	private void iniciarComponentes() {
 
 		JLabel titulo = new JLabel("AGENDA");
@@ -175,6 +187,15 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		
 	}
 
+	/**
+	 * <b>precondiciones:</b> Tener creado:
+	 * JPanel panel2,
+	 * JTextField ingresarNombreC,
+	 *	ingresarCorreoC
+	 *	JButton botonGuardarC,botonPanelC,botonEliminarC, botonActualizarC
+	 * <br>
+	 * <b>poscondiciones</b> Vista de los componentes para el panel de contactos
+	 */
 	private void panelContactos() {
 		panel2.setBorder(
 				BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Contactos del trabajo"), null));
@@ -229,22 +250,51 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 		modContactos = new DefaultTableModel(datosContactos, cabezeraContactos);
 	}
 
+	/**
+	 * <b>precondiciones:</b> Tener creado: JComboBox de paises
+	 * <br>
+	 * <b>poscondiciones</b> retornar datos de los paises
+	 * @return JcomboBox de paises
+	 */
 	public JComboBox<String> getPaises() {
 		return paises;
 	}
 
+	/**
+	 * <b>precondiciones:</b> JComboBox -string paises
+	 * <br>
+	 * <b>poscondiciones</b> guardar el dato en paises
+	 * @param paises datos del pais
+	 */
 	public void setPaises(JComboBox<String> paises) {
 		this.paises = paises;
 	}
 
+	/**
+	 * <b>precondiciones:</b> JComboBox -string paises
+	 * <br>
+	 * <b>poscondiciones</b> guardar el dato en paises
+	 * @return panel 1
+	 */
 	public JPanel getPanel1() {
 		return panel1;
 	}
 
+	/**
+	 * <b>precondiciones:</b> Tener creado el : panel1
+	 * <br>
+	 * @param panel1 envia los datos a panel 1
+	 */
 	public void setPanel1(JPanel panel1) {
 		this.panel1 = panel1;
 	}
 
+	/**
+	 * <b>precondiciones:</b> tener creado: Jpanel2
+	 * <br>
+	 * <b>poscondiciones</b> devolver datos de panel2
+	 * @return panel 2 " panel contactos"
+	 */
 	public JPanel getPanel2() {
 		return panel2;
 	}
@@ -406,6 +456,11 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 	}
 
 	@Override
+	/**
+	 * <b>precondiciones:</b> Tener panel1,panel2 creado con sus respectivos botones
+	 * <br>
+	 * <b>poscondiciones</b> Dar funcionalidad de crud a botones y mostrarlos en una tabla
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == botonPanelA) {
 			panel1.setVisible(true);
@@ -520,10 +575,23 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 					
 				};
 			};
+			
+			try {
+				String nombreA =  ingresarNombreA.getText();
+				String correoA = ingresarCorreoA.getText();
+				String telefonoA = ingresarTelefonoA.getText();
+				String pais = (String) paises.getSelectedItem();
+				clasePersistencia.crearArchivo(nombreA, correoA, telefonoA, pais);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			JScrollPane scroll = new JScrollPane(tabla);
 			scroll.setBounds(10, 250, 440, 130);
 			panel1.add(scroll);
 			fila = fila + 1;
+			
+			
 		
 		}
 		if (arg0.getSource() == botonGuardarC) {
@@ -549,6 +617,18 @@ public class PanelAgenda extends JPanel  implements ActionListener{
 					
 				};
 			};
+			try {
+				String nombreC =  ingresarNombreC.getText();
+				String empresaC = ingresarEmpresa.getText();
+				String correoC = ingresarCorreoC.getText();
+				String telefonoC = ingresarTelefonoC.getText();
+				String pais = (String) paises.getSelectedItem();
+				clasePersistencia.crearArchivoContactos(nombreC, empresaC, correoC, telefonoC, pais);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			JScrollPane scroll = new JScrollPane(tabla);
 			scroll.setBounds(10, 250, 440, 130);
 			panel2.add(scroll);
